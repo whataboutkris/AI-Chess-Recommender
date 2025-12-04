@@ -1,5 +1,5 @@
 # AI Chess Recommender System
-
+This project aims to develop an AI Chess Move Recommender that analyzes a given board position and suggests optimal moves using adversarial search. The system focuses on fast, explainable recommendations suitable for players seeking strategic guidance. The model will evaluate future positions through a custom heuristic and provide ranked move suggestions.
 ## Installation Guide
 
 This guide explains how to install the required dependencies:
