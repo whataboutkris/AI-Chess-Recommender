@@ -1,6 +1,9 @@
 import chess
 from stockfish import Stockfish
+import os 
 from engine.algorithm import alphabeta  # <-- import your engine
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def run_recommender():
     print("=== AI Chess Recommender ===")
@@ -9,7 +12,7 @@ def run_recommender():
     board = chess.Board()
 
     # --- Path to Stockfish inside the repo ---
-    stockfish_path = "../stockfish/stockfish.exe"
+    stockfish_path = os.path.join(BASE_DIR, "stockfish", "stockfish.exe")
 
     # --- Create Stockfish engine instance ---
     stockfish = Stockfish(
