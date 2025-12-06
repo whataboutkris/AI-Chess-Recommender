@@ -1,10 +1,6 @@
 import chess
-from dotenv import load_dotenv
-import os
 from stockfish import Stockfish
 from engine.algorithm import alphabeta  # <-- import your engine
-
-load_dotenv()  # load .env contents
 
 def run_recommender():
     print("=== AI Chess Recommender ===")
@@ -12,12 +8,10 @@ def run_recommender():
 
     board = chess.Board()
 
-    # --- Load Stockfish path from .env ---
-    stockfish_path = os.getenv("STOCKFISH_PATH")
-    if not stockfish_path:
-        raise RuntimeError("STOCKFISH_PATH not found in .env")
+    # --- Path to Stockfish inside the repo ---
+    stockfish_path = "../stockfish/stockfish.exe"
 
-    # --- Create a Stockfish engine instance ---
+    # --- Create Stockfish engine instance ---
     stockfish = Stockfish(
         path=stockfish_path,
         depth=15,
