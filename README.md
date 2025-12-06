@@ -47,6 +47,12 @@ sudo apt-get update
 sudo apt-get install -y stockfish
 ```
 
+#### Option A1: Windows (Recommended)
+
+```bash
+pip3 install stockfish 
+```
+
 #### Option B: Fedora/RHEL
 
 ```bash
