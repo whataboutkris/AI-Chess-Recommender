@@ -36,7 +36,7 @@ def run_recommender():
             maximizing=board.turn  # True = white to move
         )
 
-        print(f"AI (Alpha-Beta, depth {SEARCH_DEPTH}) recommends: {ai_move}   | Eval: {score}")
+        print(f"Custom Algorithm AI (Alpha-Beta, depth {SEARCH_DEPTH}) recommends: {ai_move}   | Eval: {score}")
 
         # === Stockfish's Recommendation ===
         stockfish.set_fen_position(board.fen())

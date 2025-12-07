@@ -1,58 +1,45 @@
+#RUN TESTS USING python -m tests.test_scenarios
 import chess
+from .eval_function import EvaluationFunction
 
-# TEMPORARY EVALUATION FUNCTION
-# Replace with your real evaluate(board) later.
+# Initialize the evaluation function
+evaluator = EvaluationFunction()
+
+# Global node counter
+NODE_COUNT = 0
+MAX_NODES = 20000  # Adjust for speed vs accuracy
+
 def evaluate(board: chess.Board) -> int:
-    """
-    Placeholder evaluation function.
-    Returns a simple material score for now.
-    Positive = White is better.
-    Negative = Black is better.
-    """
-    piece_values = {
-        chess.PAWN: 100,
-        chess.KNIGHT: 300,
-        chess.BISHOP: 300,
-        chess.ROOK: 500,
-        chess.QUEEN: 900,
-        chess.KING: 0  # don't evaluate king numerically
-    }
-    
-    score = 0
-    for piece_type, val in piece_values.items():
-        score += (len(board.pieces(piece_type, chess.WHITE)) -
-                  len(board.pieces(piece_type, chess.BLACK))) * val
-
-    return score
-
+    """Wrapper for the full evaluation function."""
+    return evaluator.evaluate_board(board)
 
 def alphabeta(board: chess.Board, depth: int, alpha: float, beta: float, maximizing: bool):
     """
-    Minimax with Alpha-Beta pruning.
-
-    Args:
-        board: A python-chess Board object
-        depth: Remaining search depth
-        alpha: Best already explored option along maximizing path
-        beta:  Best already explored option along minimizing path
-        maximizing: True if it's white's turn in search, False for black
-
-    Returns:
-        (score, best_move)
+    Minimax with Alpha-Beta pruning, limited node count, and move ordering.
     """
-    # Terminal position or depth reached
+    global NODE_COUNT
+    NODE_COUNT += 1
+
+    # Stop if max nodes reached
+    if NODE_COUNT >= MAX_NODES:
+        return evaluate(board), None
+
+    # Terminal node
     if depth == 0 or board.is_game_over():
         return evaluate(board), None
 
     best_move = None
 
-    # MAXIMIZING PLAYER (White)
+    # --- Generate and order moves ---
+    moves = list(board.legal_moves)
+    # Prioritize captures for faster pruning
+    moves.sort(key=lambda m: board.is_capture(m), reverse=True)
+
     if maximizing:
         max_eval = -float("inf")
-
-        for move in board.legal_moves:
+        for move in moves:
             board.push(move)
-            eval_score, _ = alphabeta(board, depth - 1, alpha, beta, False)
+            eval_score, _ = alphabeta(board, depth-1, alpha, beta, False)
             board.pop()
 
             if eval_score > max_eval:
@@ -61,17 +48,13 @@ def alphabeta(board: chess.Board, depth: int, alpha: float, beta: float, maximiz
 
             alpha = max(alpha, max_eval)
             if beta <= alpha:
-                break  # beta cut-off
-
+                break  # Beta cut-off
         return max_eval, best_move
-
-    # MINIMIZING PLAYER (Black)
     else:
         min_eval = float("inf")
-
-        for move in board.legal_moves:
+        for move in moves:
             board.push(move)
-            eval_score, _ = alphabeta(board, depth - 1, alpha, beta, True)
+            eval_score, _ = alphabeta(board, depth-1, alpha, beta, True)
             board.pop()
 
             if eval_score < min_eval:
@@ -80,6 +63,27 @@ def alphabeta(board: chess.Board, depth: int, alpha: float, beta: float, maximiz
 
             beta = min(beta, min_eval)
             if beta <= alpha:
-                break  # alpha cut-off
-
+                break  # Alpha cut-off
         return min_eval, best_move
+
+def iterative_deepening(board: chess.Board, max_depth: int):
+    """
+    Iterative deepening wrapper for alphabeta. Stops early if MAX_NODES is reached.
+    Returns best move and evaluation.
+    """
+    global NODE_COUNT
+    best_move = None
+    best_score = None
+
+    for depth in range(1, max_depth + 1):
+        NODE_COUNT = 0  # Reset node counter per iteration
+        score, move = alphabeta(board, depth, -float("inf"), float("inf"), board.turn)
+        if move is not None:
+            best_move = move
+            best_score = score
+        # Stop early if node limit reached
+        if NODE_COUNT >= MAX_NODES:
+            print(f"Node limit reached at depth {depth}. Stopping search.")
+            break
+
+    return best_move, best_score
