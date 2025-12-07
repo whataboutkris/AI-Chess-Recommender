@@ -52,6 +52,8 @@ sudo apt-get install -y stockfish
 ```bash
 pip3 install stockfish 
 ```
+Make sure to install from the website aswell!
+https://stockfishchess.org/download/
 
 #### Option B: Fedora/RHEL
 
