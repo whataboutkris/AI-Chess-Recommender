@@ -52,6 +52,7 @@ sudo apt-get install -y stockfish
 ```bash
 pip3 install stockfish 
 ```
+No need to install Stockfish directly since its in the repository
 
 #### Option B: Fedora/RHEL
 
