@@ -7,7 +7,8 @@ evaluator = EvaluationFunction()
 
 # Global node counter (optional for iterative deepening)
 NODE_COUNT = 0
-MAX_NODES = 20000  # Adjust for speed vs accuracy
+#MAX_NODES = 20000  # Adjust for speed vs accuracy (20k vs 1mil nodes)
+MAX_NODES = 1000000  
 
 def evaluate(board: chess.Board) -> int:
     """Wrapper for the full evaluation function."""

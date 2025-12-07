@@ -15,7 +15,13 @@ def run_ai_vs_stockfish(board: chess.Board, depth: int):
 
     # --- Run Our Algorithm ---
     start_time = time.time()
-    score, move = alphabeta(board, depth=depth, alpha=-float("inf"), beta=float("inf"), maximizing=board.turn)
+    score, move, metrics = alphabeta(
+        board,
+        depth=depth,
+        alpha=-float("inf"),
+        beta=float("inf"),
+        maximizing=board.turn
+    )
     ai_time = time.time() - start_time
 
     print(f"Custom AI recommends: {move}, Score: {score}")
@@ -23,8 +29,14 @@ def run_ai_vs_stockfish(board: chess.Board, depth: int):
 
     # Nodes/sec
     legal_moves_count = sum(1 for _ in board.legal_moves)
-    nodes_per_second = legal_moves_count / ai_time if ai_time > 0 else 0
-    print(f"Approx. nodes/sec: {nodes_per_second:.0f}")
+    nodes_per_second = metrics["nodes_visited"] / ai_time if ai_time > 0 else 0
+    prune_efficiency = (metrics["pruning_count"] / metrics["nodes_visited"] * 100) if metrics["nodes_visited"] > 0 else 0
+
+    print(f"Nodes visited: {metrics['nodes_visited']}")
+    print(f"Max depth reached: {metrics['max_depth_reached']}")
+    print(f"Pruning count: {metrics['pruning_count']}")
+    print(f"Nodes per second: {nodes_per_second:.0f}")
+    print(f"Pruning efficiency: {prune_efficiency:.1f}%")
 
     # --- Run Stockfish ---
     try:
