@@ -1,6 +1,7 @@
 import chess
 from stockfish import Stockfish
 import os 
+import time 
 from engine.algorithm import alphabeta  # <-- import your engine
 from rich.console import Console
 from rich.style import Style
@@ -82,46 +83,49 @@ def run_recommender():
     print("Type 'quit' to exit.\n")
 
     board = chess.Board()
-
-    # --- Path to Stockfish inside the repo ---
     stockfish_path = os.path.join(BASE_DIR, "stockfish", "stockfish.exe")
+    stockfish = Stockfish(path=stockfish_path, depth=15, parameters={"Threads": 2, "Minimum Thinking Time": 30})
 
-    # --- Create Stockfish engine instance ---
-    stockfish = Stockfish(
-        path=stockfish_path,
-        depth=15,
-        parameters={"Threads": 2, "Minimum Thinking Time": 30}
-    )
-
-    SEARCH_DEPTH = 3  # You can raise this later
+    SEARCH_DEPTH = 3
 
     while True:
         print_rich_board(board)
         print()
 
-        # === Our AI's Recommendation ===
-        score, ai_move = alphabeta(
+        # --- Run Custom AI with metrics ---
+        start_time = time.time()
+        # Wrap alphabeta to return metrics (nodes_visited, max_depth_reached, pruning_count)
+        score, ai_move, metrics = alphabeta(
             board,
             depth=SEARCH_DEPTH,
             alpha=-1e9,
             beta=1e9,
-            maximizing=board.turn  # True = white to move
+            maximizing=board.turn,
         )
+        elapsed = time.time() - start_time
+        nodes = metrics.get("nodes_visited", 0)
+        max_depth = metrics.get("max_depth_reached", 0)
+        prunes = metrics.get("pruning_count", 0)
+        nodes_per_sec = nodes / elapsed if elapsed > 0 else 0
+        prune_efficiency = (prunes / nodes * 100) if nodes > 0 else 0
 
-        print(f"Custom Algorithm AI (Alpha-Beta, depth {SEARCH_DEPTH}) recommends: {ai_move}   | Eval: {score}")
+        print(f"Custom AI recommends: {ai_move} | Eval: {score}")
+        print(f"Search latency: {elapsed:.2f}s (goal: <1s)")
+        print(f"Nodes per second: {nodes_per_sec:.0f}")
+        print(f"Average depth reached: {max_depth}")
+        print(f"Move ordering effectiveness (pruning efficiency): {prune_efficiency:.1f}%")
+        print()
 
-        # === Stockfish's Recommendation ===
+        # --- Stockfish recommendation ---
         stockfish.set_fen_position(board.fen())
         sf_move = stockfish.get_best_move()
         print(f"Stockfish recommends: {sf_move}")
         print()
 
-        # === User Move Input ===
+        # --- User move input ---
         user_input = input("Your move (SAN): ")
-
         if user_input.lower() in ["quit", "exit"]:
             break
-
         try:
             board.push_san(user_input)
         except Exception:
@@ -130,7 +134,6 @@ def run_recommender():
 
         print("\n--- Move accepted ---\n")
 
-        # === Check for game end ===
         if board.is_game_over():
             print_rich_board(board)
             print("Game over:", board.result())
