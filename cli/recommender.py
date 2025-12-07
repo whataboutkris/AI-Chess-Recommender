@@ -10,33 +10,45 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 console = Console()
 
 # --- Square colors ---
-LIGHT_SQUARE = "#EEEED2"  # light square color
-DARK_SQUARE  = "#769656"  # dark square color
+LIGHT_SQUARE = "#EEEED2"
+DARK_SQUARE  = "#A6BE8D"
 
 # --- Piece colors ---
 WHITE_PIECE = "white"  # capital letters
 BLACK_PIECE = "black"  # lowercase letters
 
+UNICODE_PIECES = {
+    "K": "♔",  # White King
+    "Q": "♕",  # White Queen
+    "R": "♖",  # White Rook
+    "B": "♗",  # White Bishop
+    "N": "♘",  # White Knight
+    "P": "♙",  # White Pawn
+    "k": "♚",  # Black King
+    "q": "♛",  # Black Queen
+    "r": "♜",  # Black Rook
+    "b": "♝",  # Black Bishop
+    "n": "♞",  # Black Knight
+    "p": "♟",  # Black Pawn
+    ".": " "   # Empty square
+}
+
 def piece_color(piece):
     if piece == ".":
-        return "black"
+        return "black"  # empty square won't matter
     elif piece.isupper():
-        return WHITE_PIECE
+        return "#0051FF"  # blue for white pieces
     else:
-        return BLACK_PIECE
+        return "#FF0000"  # red for black pieces
 
 def print_rich_board(board, square_width=7, square_height=3):
-    # --- Split board into rows ---
     rows = str(board).split("\n")
     files = "a b c d e f g h".split()
 
     # --- Top file coordinates ---
-    coord_line = " " * 2  # offset for left rank numbers
-    for f in files:
-        coord_line += f"{f.center(square_width)}"
+    coord_line = "  " + "".join(f.center(square_width) for f in files)
     console.print(coord_line)
 
-    # --- Iterate over ranks ---
     for r_idx, row in enumerate(rows):
         rank = 8 - r_idx
         squares = row.split(" ")
@@ -46,12 +58,10 @@ def print_rich_board(board, square_width=7, square_height=3):
         for c_idx, sq in enumerate(squares):
             is_dark = (r_idx + c_idx) % 2 == 1
             bg = DARK_SQUARE if is_dark else LIGHT_SQUARE
-
             color = piece_color(sq)
-
             style = Style(bgcolor=bg, color=color, bold=True)
 
-            piece_char = sq if sq != "." else " "
+            piece_char = UNICODE_PIECES[sq]
 
             for h in range(square_height):
                 if h == square_height // 2:
