@@ -88,6 +88,18 @@ Check that stockfish is accessible:
 stockfish --version
 ```
 
+### 4. Install Rich
+
+```bash
+pip install rich
+```
+
+Verify the installation: 
+
+```bash
+python -c "import rich; print(rich.__version__)"
+```
+
 ---
 
 ## Setup Virtual Environment (Optional but Recommended)
