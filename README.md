@@ -40,6 +40,10 @@ python3 -c "import chess; print('python-chess installed successfully')"
 ```
 
 ### 2. Install Stockfish
+Make sure to install stockfish and extract the files to the empty stockfish folder in the repository. Your Stockfish directory should look like this:
+<img width="660" height="301" alt="image" src="https://github.com/user-attachments/assets/3ad129ef-641c-4735-a45a-fd813b6ad119" />
+
+
 
 #### Option A: Ubuntu/Debian (Recommended)
 
