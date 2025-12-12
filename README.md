@@ -20,6 +20,7 @@ python3 --version
 pip3 --version
 ```
 
+If not found, install Python (windows) here: https://www.python.org/downloads/
 ---
 
 ## Installation Steps
