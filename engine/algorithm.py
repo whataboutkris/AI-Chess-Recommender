@@ -16,6 +16,12 @@ def evaluate(board: chess.Board) -> int:
 
 
 def quiescence(board, alpha, beta):
+    """
+    Extends the search past depth = 0, but only through "noisy" moves
+    (currently captures) to avoid evaluating unstable tactical positions.
+    Results in a more stable and tactically accurate evaluation at leaf nodes,
+    greatly improving overall playing strength without large depth increases.
+    """
     stand_pat = evaluate(board)
 
     if stand_pat >= beta:
