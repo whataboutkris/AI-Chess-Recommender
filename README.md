@@ -52,24 +52,14 @@ sudo apt-get install -y stockfish
 ```bash
 pip3 install stockfish 
 ```
-No need to install Stockfish directly since its in the repository
+You need to install Stockfish from the website below:
+https://stockfishchess.org/download/
+(Stockfish is ONLY used for our metrics, and not our AI's moves)
 
 #### Option B: Fedora/RHEL
 
 ```bash
 sudo dnf install -y stockfish
-```
-
-#### Option C: Arch Linux
-
-```bash
-sudo pacman -S stockfish
-```
-
-#### Option D: macOS (Homebrew)
-
-```bash
-brew install stockfish
 ```
 
 #### Option E: Manual Installation (All Platforms)
@@ -103,7 +93,7 @@ python -c "import rich; print(rich.__version__)"
 
 ---
 
-## Setup Virtual Environment (Optional but Recommended)
+## Setup Virtual Environment (Optional but Recommended if not using Windows)
 
 Create and activate a Python virtual environment:
 
@@ -126,19 +116,10 @@ pip install python-chess
 
 If you get a "stockfish not found" error when running the application:
 
-1. Ensure stockfish is installed: `which stockfish`
+1. Ensure stockfish is installed: `which stockfish` (Linux)
 2. If installed in a non-standard location, update the path in your code
 3. Specify the full path to the stockfish binary when initializing the engine
 
-### Python-Chess Import Error
-
-If you get an ImportError for chess:
-
-```bash
-pip3 install --upgrade python-chess
-```
-
----
 
 ## Next Steps
 
