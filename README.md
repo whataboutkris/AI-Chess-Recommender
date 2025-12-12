@@ -74,7 +74,7 @@ Your Stockfish directory should look like this:
 Check that stockfish is accessible:
 
 ```bash
-stockfish --version
+stockfish 
 ```
 ### (WINDOWS OS) If stockfish doesn't show up in your terminal, you need to include stockfish into your windows path!
 <img width="616" height="581" alt="image" src="https://github.com/user-attachments/assets/fea142aa-7520-424a-b1d1-e89c2342762b" />
