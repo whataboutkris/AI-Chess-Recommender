@@ -43,7 +43,13 @@ python3 -c "import chess; print('python-chess installed successfully')"
 Make sure to install stockfish and extract the files to the empty stockfish folder in the repository. Your Stockfish directory should look like this:
 <img width="660" height="301" alt="image" src="https://github.com/user-attachments/assets/3ad129ef-641c-4735-a45a-fd813b6ad119" />
 
-
+#### Option A1: Windows (Recommended)
+```bash
+pip3 install stockfish 
+```
+You need to install Stockfish from the website below:
+https://stockfishchess.org/download/
+(Stockfish is ONLY used for our metrics, and not our AI's moves)
 
 #### Option A: Ubuntu/Debian (Recommended)
 
@@ -51,15 +57,6 @@ Make sure to install stockfish and extract the files to the empty stockfish fold
 sudo apt-get update
 sudo apt-get install -y stockfish
 ```
-
-#### Option A1: Windows (Recommended)
-
-```bash
-pip3 install stockfish 
-```
-You need to install Stockfish from the website below:
-https://stockfishchess.org/download/
-(Stockfish is ONLY used for our metrics, and not our AI's moves)
 
 #### Option B: Fedora/RHEL
 
