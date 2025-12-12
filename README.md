@@ -130,3 +130,6 @@ Once installed, you can run the Chess Recommender System:
 ```bash
 python3 main.py
 ```
+
+If you are not familiar with chess notation, this guide will help:
+https://www.chess.com/terms/chess-notation
