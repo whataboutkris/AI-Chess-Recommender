@@ -114,5 +114,10 @@ Once installed, you can run the Chess Recommender System:
 python3 main.py
 ```
 
+If you'd like to mess around with max_node value or just this project in general, you can run tests.
+```bash
+python -m tests.test_scenarios
+```
+
 If you are not familiar with chess notation, this guide will help:
 https://www.chess.com/terms/chess-notation
