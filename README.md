@@ -1,5 +1,5 @@
 # AI Chess Recommender System
-This project aims to develop an AI Chess Move Recommender that analyzes a given board position and suggests optimal moves using adversarial search. The system focuses on fast, explainable recommendations suitable for players seeking strategic guidance. The model will evaluate future positions through a custom heuristic and provide ranked move suggestions. This project can be found in our GitHub repository here: https://github.com/whataboutkris/AI-Chess-Recommender
+This project aims to develop an AI Chess Move Recommender that analyzes a given board position and suggests optimal moves using adversarial search. The system focuses on fast, explainable recommendations suitable for players seeking strategic guidance. The model will evaluate future positions through a custom heuristic and provide ranked move suggestions.
 
 ## Installation Guide
 
@@ -99,9 +99,9 @@ pip install numpy
 
 If you get a "stockfish not found" error when running the application:
 
-1. Ensure stockfish is installed: `which stockfish` (Linux)
+1. Ensure stockfish is actually installed!
 2. If installed in a non-standard location, update the path in your code
-3. Specify the full path to the stockfish binary when initializing the engine
+3. Specify the full path to the stockfish binary when initializing the engine (found at the top of /tests/test_scenarios and in line 86 in /cli/recommender.py )
 
 Additionally: If you installed Stockfish on a CLI, you need to restart the CLI for changes to take effect. 
 
